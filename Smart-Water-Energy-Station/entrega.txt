@@ -1,0 +1,6 @@
+Integrantes:
+Pedro de Castro Figueiredo - RM 561825
+Nicolas Cipriano - RM 562278
+Gustavo Henrique - RM 563874
+
+GitHub: https://github.com/sway-fix/Smart-Water-Energy-Station
