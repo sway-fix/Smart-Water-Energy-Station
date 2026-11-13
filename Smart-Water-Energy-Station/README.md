@@ -13,8 +13,6 @@ consumo eletrico simulado, acionamento de atuadores e alertas de falha.
 | Nicolas Cipriano | 562278 |
 | Gustavo Henrique | 563874 |
 
-> Conferir o nome completo do Gustavo antes de entregar.
-
 ## Estrutura
 - `backend/` - Spring Boot 3 (Java 17) + H2 em arquivo
 - `mobile/` - app Flutter
