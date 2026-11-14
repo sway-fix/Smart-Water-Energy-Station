@@ -62,6 +62,34 @@ flutter run
 - Emulador Android: ja funciona (`10.0.2.2`).
 - Celular fisico: troque `baseUrl` em `mobile/lib/main.dart` pelo IP do PC (mesma rede Wi-Fi).
 
-O app simula o sensor: a cada 5 s envia uma leitura ao backend e atualiza as telas
-(Painel, Atuadores, Alertas, detalhe da falha). Se a API cair, aparece a faixa
+## Como o app funciona
+O app simula a estacao: a cada 5 s calcula uma leitura (nivel, vazao e consumo) e envia ao backend,
+depois atualiza as telas (Painel, Atuadores, Alertas e detalhe da falha). Se a API cair, aparece a faixa
 "API fora do ar" e o app continua funcionando, voltando sozinho quando a API volta.
+
+### Atuadores e simulacao (reservatorio de 500 L)
+- **Bomba:** distribui agua do reservatorio para a rede (demanda variavel, com picos).
+- **Valvula:** admite agua e regula a abertura sozinha para repor o que a bomba retira,
+  mantendo o nivel em ~60%.
+- **Modo manual:** valvula aberta por completo, sem regulagem (permite encher e transbordar).
+
+| Bomba | Valvula | Resultado |
+|---|---|---|
+| Ligada | Ligada | Nivel estavel em ~60% |
+| Ligada | Desligada | Nivel desce ate o critico |
+| Desligada | Ligada | Enche ate ~60% e mantem |
+| Desligada | Desligada | Nivel parado, vazao zero |
+| Qualquer | Ligada + Modo manual | Nivel sobe ate o transbordo |
+
+### Faixas de nivel (Painel e aba Alertas)
+| Nivel | Estado | Cor |
+|---|---|---|
+| < 20% | Nivel critico | Vermelho |
+| 20% a 50% | Nivel medio | Amarelo |
+| 50% a 80% | Nivel normal | Verde |
+| 80% a 95% | Atencao: quase cheio | Amarelo |
+| > 95% | Risco de transbordo | Vermelho |
+
+### Alertas
+Gerados pelo backend a cada leitura, no maximo 1 a cada 15 s: nivel critico (< 20%), nivel alto (> 95%),
+sobreconsumo (> 3,3 kW) e vazao baixa (< 1 L/min). Os dados de consumo e vazao sao simulados.
